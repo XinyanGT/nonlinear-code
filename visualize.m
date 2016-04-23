@@ -64,12 +64,12 @@ function visualize(sys, t, q, u)
         ts = t(1:i);
         subplot(plots(2)); cla;
         plot(ts, data1(1, 1:i), 'r',  ts, data1(2, 1:i), 'g', ts, data1(3, 1:i), 'b', 'LineWidth', 2);
-        plot(t(i), data1(1,i), 'or', t(i), data1(2,i), 'og', t(i), data1(3,i), 'ob', 'MarkerSize',10);
+        plot(t(i), data1(1,i), '.r', t(i), data1(2,i), '.g', t(i), data1(3,i), '.b', 'MarkerSize', 50);
 %         legend('x', 'y', 'z');        
         
         subplot(plots(3)); cla;
         plot(ts, data2(1, 1:i), 'r', ts, data2(2, 1:i), 'g', ts, data2(3, 1:i), 'b', 'LineWidth', 2);        
-        plot(t(i), data2(1,i), 'or', t(i), data2(2,i), 'og', t(i), data2(3,i), 'ob', 'MarkerSize',10);        
+        plot(t(i), data2(1,i), '.r', t(i), data2(2,i), '.g', t(i), data2(3,i), '.b', 'MarkerSize', 50);        
 %         legend('row', 'pitch', 'yaw'); title('Euler Angles');        
 
 
