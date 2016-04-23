@@ -20,6 +20,7 @@ function visualize(sys, t, q, u)
     data2 = q(sys.indices.varphi, :);    
     subplot(plots(3)); hold on;
     xlabel('Time (s)'); ylabel('Angles (rad)');
+    title('Euler Angles');            
     xmin = min(t); xmax = max(t); ymin = 1.1 * min(min(data2)); ymax = 1.1 * max(max(data2));
     axis([xmin xmax ymin ymax]);    
   
@@ -70,7 +71,7 @@ function visualize(sys, t, q, u)
         subplot(plots(3)); cla;
         plot(ts, data2(1, 1:i), 'r', ts, data2(2, 1:i), 'g', ts, data2(3, 1:i), 'b', 'LineWidth', 2);        
         plot(t(i), data2(1,i), '.r', t(i), data2(2,i), '.g', t(i), data2(3,i), '.b', 'MarkerSize', 50);        
-%         legend('row', 'pitch', 'yaw'); title('Euler Angles');        
+%         legend('row', 'pitch', 'yaw'); 
 
 
     end
