@@ -6,7 +6,7 @@ function visualize(sys, t, q, u)
     plots = [subplot(3, 2, 1:4), subplot(3, 2, 5), subplot(3, 2, 6)];
         
     % Initialize figures
-    subplot(plots(1)); grid on;
+    subplot(plots(1)); 
 %     cla; hold on; view(3); 
     view(3); 
     
@@ -52,7 +52,7 @@ function visualize(sys, t, q, u)
 
         % Update axis
         mg = [20, 20, 5]; % margin from quadrotor to the limit of axis of drawing
-        axis image;
+%         axis image;
         axis([x(1)-mg(1), x(1)+mg(1), x(2)-mg(2), x(2)+mg(2), x(3)-mg(3), x(3)+mg(3)]);
 
         zlabel('z'); xlabel('x'); ylabel('y');
