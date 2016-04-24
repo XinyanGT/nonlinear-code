@@ -1,11 +1,13 @@
-classdef zero_controller < handle
+classdef constant_controller < handle
     properties
         sys
+        cons 
     end
     
     methods
-        function obj = zero_controller(sys)
+        function obj = constant_controller(sys, cons)
             obj.sys = sys;
+            obj.cons = cons;
         end
         
         function u = control(obj, t, q)
@@ -15,7 +17,7 @@ classdef zero_controller < handle
             [x, v, varphi, omega] = obj.sys.getStateMember(q);
 
             % Your control control input is computed here
-            u = zeros(4,1);   
+            u = obj.cons;
             
             % You may want to save some statistics of the controllers to
             % data members

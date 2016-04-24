@@ -1,6 +1,7 @@
 % Modifed from https://github.com/gibiansky/experiments/blob/master/quadcopter/matlab/visualize.m
 function visualize(sys, t, q, u)
-
+    % Create a figure with three parts, one for quadrotor, two for
+    % plotting whatever states you are interested
     hFig = figure(25); set(hFig,'DoubleBuffer', 'on');
     figure(25); 
     plots = [subplot(3, 2, 1:4), subplot(3, 2, 5), subplot(3, 2, 6)];
@@ -21,7 +22,7 @@ function visualize(sys, t, q, u)
     subplot(plots(3)); hold on;
     xlabel('Time (s)'); ylabel('Angles (rad)');
     title('Euler Angles');            
-    xmin = min(t); xmax = max(t); ymin = 1.1 * min(min(data2)); ymax = 1.1 * max(max(data2));
+    xmin = min(t); xmax = max(t); ymin = 1.1 * min(min(data2))- 0.1; ymax = 1.1 * max(max(data2))+0.1;
     axis([xmin xmax ymin ymax]);    
   
     % Go through time stamps
@@ -37,8 +38,10 @@ function visualize(sys, t, q, u)
 
         % The cylinders for thrusts
         % Compute scaling for the thrust cylinders, based on heuristic scaling
-    %     scales = exp(data.input(:, t) / min(abs(data.input(:, t))) + 5) - exp(6) +  1.5;
-        scales = 5* ones(4,1);
+        rot_speed_sq = sys.Gamma_inv * u(:,i);
+        % Convert u to rotor rotational speed
+        scales = exp(rot_speed_sq / min(abs(rot_speed_sq)) + 5) - exp(6) +  1.5;
+%         scales = 5* ones(4,1);
         for j = 1:4
             % For negative scales, we need to flip the cylinder
             s = scales(j);
@@ -77,8 +80,6 @@ function visualize(sys, t, q, u)
     end
 end
 
-
-
 % Draw a quadcopter. Return a handle to the quadcopter object
 % and an array of handles to the thrust display cylinders.
 % These will be transformed during the animation to display
@@ -101,9 +102,9 @@ function [h, thrusts] = quadVis()
     % Draw thrust cylinders.
     [x, y, z] = cylinder(0.1, 7);
     thrusts(1) = surf(x, y + 5, z, 'EdgeColor', 'none', 'FaceColor', 'm');
-    thrusts(2) = surf(x + 5, y, z, 'EdgeColor', 'none', 'FaceColor', 'y');
+    thrusts(2) = surf(x + 5, y, z, 'EdgeColor', 'none', 'FaceColor', 'g');
     thrusts(3) = surf(x, y - 5, z, 'EdgeColor', 'none', 'FaceColor', 'm');
-    thrusts(4) = surf(x - 5, y, z, 'EdgeColor', 'none', 'FaceColor', 'y');
+    thrusts(4) = surf(x - 5, y, z, 'EdgeColor', 'none', 'FaceColor', 'g');
 
     % Create handles for each of the thrust cylinders.
     for i = 1:4

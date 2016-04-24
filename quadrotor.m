@@ -8,13 +8,14 @@ classdef quadrotor < handle
         c_Q = 8.004 * 1e-4;
         I = diag([0.0820, 0.0845, 0.1377]);
         indices = struct('x', 1:3, 'v', 4:6, 'varphi', 7:9, 'omega', 10:12);
-        
+        Gamma, Gamma_inv
         initial, final, tspan
     end
     
     methods
         %% Construct
         function obj = quadrotor()
+            obj.Gamma = obj.getGamma(); obj.Gamma_inv = inv(obj.Gamma);
         end
         
         function setEnds(obj, initial, final, tspan)
@@ -27,7 +28,7 @@ classdef quadrotor < handle
             e3 = [0, 0, 1]';
             xdot = v;
             R = obj.getRotMat(varphi);
-            vdot = -e3*obj.g -+1/obj.m*u(1)*R*e3;
+            vdot = -e3*obj.g + 1/obj.m*u(1)*R*e3;
             varphidot = inv(obj.getPhi(varphi)) * omega;
             omegadot = inv(obj.I) * (u(2:4) - ...
                                      obj.hat(omega)*obj.I*omega);
@@ -82,6 +83,14 @@ classdef quadrotor < handle
 %             R = [c2*c3, -c1*s3 - s1*c2*c3, s1*s2; ...
 %                  s1*c3 + c1*c2*s3, -s1*s3 + c1*c2*c3, -c1*s2; ...
 %                  s2*s3, s2*c3, c2];
+        end
+        
+        function Gamma = getGamma(obj)
+            cT = obj.c_T; d = obj.d; cQ = obj.c_Q;
+            Gamma = [cT, cT, cT, cT; ...
+                     0, d*cT, 0, -d*cT; ...
+                     -d*cT, 0, d*cT, 0; ...
+                     -cQ, cQ, -cQ, cQ];
         end
     end
 end
